@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Restaurantes</string>
+    <string name="add">Agregar</string>
+
+    <string-array name="restaurantes">
+        <item>Mesa Larga</item>
+        <item>Pizzarra</item>
+        <item>Tequilas</item>
+        <item>Semilla Escondida</item>
+    </string-array>
+
+</resources>
