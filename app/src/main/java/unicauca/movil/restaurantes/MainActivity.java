@@ -1,6 +1,7 @@
 package unicauca.movil.restaurantes;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +18,12 @@ import java.util.List;
 
 import unicauca.movil.restaurantes.adapters.RestauranteAdapter;
 import unicauca.movil.restaurantes.models.Restaurante;
+import unicauca.movil.restaurantes.util.L;
+
+
 
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener{
 
-    List<Restaurante> data;
     RestauranteAdapter adapter;
     ListView list;
     int pos;
@@ -31,16 +34,22 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         setContentView(R.layout.activity_main);
 
         list = (ListView) findViewById(R.id.list);
-        data = new ArrayList<Restaurante>();
-        adapter = new RestauranteAdapter(this, data);
+        L.data = new ArrayList<Restaurante>();
+        adapter = new RestauranteAdapter(this, L.data);
 
         list.setAdapter(adapter);
         registerForContextMenu(list);
         loadRestaurantes();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
+    }
+
     public void loadRestaurantes(){
-        data.clear();
+        L.data.clear();
 
         Restaurante r1 = new Restaurante();
         r1.setNombre("Mesa Larga");
@@ -57,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         r3.setDireccion("Parque Carantanta");
         r3.setCalificacion(4.3f);
 
-        data.add(r1);
-        data.add(r2);
-        data.add(r3);
+        L.data.add(r1);
+        L.data.add(r2);
+        L.data.add(r3);
 
         adapter.notifyDataSetChanged();
     }
@@ -75,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_add:
-                Toast.makeText(this, "Menu Add", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AddActivity.class);
+                startActivity(intent);
                 break;
             case R.id.action_filter_name:
                 Toast.makeText(this, "Menu Filter Name", Toast.LENGTH_SHORT).show();
@@ -116,10 +126,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
     //endregion
 
-    public void addItem(){
-
-    }
-
     public void deleteAlert(){
         AlertDialog alert = new AlertDialog.Builder(this)
                 .setTitle(R.string.alert_title)
@@ -133,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         if( i == DialogInterface.BUTTON_POSITIVE){
-            data.remove(pos);
+            L.data.remove(pos);
             adapter.notifyDataSetChanged();
         }
     }

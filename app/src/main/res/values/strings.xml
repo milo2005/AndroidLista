@@ -10,6 +10,8 @@
     <string name="alert_msg">Desea eliminar el restaurante?</string>
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="add_title">Agregar Restaurante</string>
+    <string name="address">Direccion</string>
 
     <string-array name="restaurantes">
         <item>Mesa Larga</item>
